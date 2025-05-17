@@ -1,7 +1,5 @@
-# 1inch Network Fusion Atomic Swaps
+# MOSE Network Fusion Atomic Swaps
 
-[![Build Status](https://github.com/1inch/cross-chain-swap/workflows/CI/badge.svg)](https://github.com/1inch/cross-chain-swap/actions)
-[![Coverage Status](https://codecov.io/gh/1inch/cross-chain-swap/graph/badge.svg?token=gOb8pdfcxg)](https://codecov.io/gh/1inch/cross-chain-swap)
 
 Atomic Swap is a two-party swap mechanism, optimized for EVM-compatible chains with well-aligned incentives to ensure fair and fast execution for all participants.
 
@@ -14,7 +12,7 @@ This protocol implies some off-chain mechanism to verify the created escrow and 
 
 ### General concept
 #### Set up two escrows
-Resolvers play a major role in the execution of transactions. The user off-chain signs an order, which the Resolver then executes on-chain via the [Limit Order Protocol](https://github.com/1inch/limit-order-protocol). As a result, an `EscrowSrc` clone is created on the source chain, where the user's tokens are stored. Then, Resolver deploys the `EscrowDst` clone to the destination chain and deposits tokens that will go to the user at the end of the swap. Also, Resolver deposits in escrow clones safety deposit in native tokens on both chains.
+Resolvers play a major role in the execution of transactions. The user off-chain signs an order, which the Resolver then executes on-chain via the [Limit Order Protocol](https://github.com/mose/limit-order-protocol). As a result, an `EscrowSrc` clone is created on the source chain, where the user's tokens are stored. Then, Resolver deploys the `EscrowDst` clone to the destination chain and deposits tokens that will go to the user at the end of the swap. Also, Resolver deposits in escrow clones safety deposit in native tokens on both chains.
 
 Important aspects of deploying clone contracts:
 - The swap parameters used to deploy both clones must be relevant and match where applicable, otherwise the secret will not be given to the Resolver. This applies, for example, to the hash of an order or of a user's secret.
@@ -58,7 +56,7 @@ To deploy a proxy contract on the source chain the order signed by the user must
 ### Functions for Resolver to use
 #### Deploy Escrow clones
 1. `EscrowFactory.addressOfEscrowSrc` to get the future `EscrowSrc` clone contract address on the source chain. This is to send the safety deposit in native tokens before the order is filled.
-2. Limit Order Protocol [OrderMixin.sol](https://github.com/1inch/limit-order-protocol/blob/master/contracts/OrderMixin.sol):
+2. Limit Order Protocol [OrderMixin.sol](https://github.com/mose/limit-order-protocol/blob/master/contracts/OrderMixin.sol):
     - `fillOrderArgs` or `fillContractOrderArgs` to fill the Fusion order and deploy the `EscrowSrc` clone on the source chain.
 3. `EscrowFactory.createDstEscrow` on the destination chain to deploy the `EscrowDst` clone.
 
